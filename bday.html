@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Saniya 🎉</title>
+
+<style>
+body{
+    margin:0;
+    font-family:sans-serif;
+    overflow:hidden;
+    color:white;
+}
+
+/* CONTAINER */
+.container{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    position:relative;
+}
+
+/* BACKGROUND */
+.container::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: linear-gradient(270deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
+    background-size:600% 600%;
+    animation:bgMove 8s infinite;
+    z-index:-2;
+}
+
+.container::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+    background-size:25px 25px;
+    animation: sparkleMove 15s linear infinite;
+    z-index:-1;
+}
+
+@keyframes bgMove{
+    0%{background-position:0%}
+    50%{background-position:100%}
+    100%{background-position:0%}
+}
+
+@keyframes sparkleMove{
+    from{background-position:0 0;}
+    to{background-position:400px 400px;}
+}
+
+/* NAME */
+.name{
+    position:absolute;
+    top:40px;
+    font-size:28px;
+    font-weight:bold;
+    animation:glow 1.5s infinite alternate;
+}
+@keyframes glow{
+    from{ text-shadow:0 0 10px white;}
+    to{ text-shadow:0 0 35px #ff4081;}
+}
+
+/* IMAGE */
+img{
+    width:220px;
+    height:260px;
+    border-radius:15px;
+    border:4px solid white;
+    margin-bottom:20px;
+}
+
+/* TEXT */
+#message{
+    width:85%;
+    text-align:center;
+    font-size:16px;
+    margin-bottom:15px;
+}
+
+/* BUTTON GROUP */
+.controls{
+    display:flex;
+    gap:25px;
+    margin-bottom:20px;
+}
+
+.btnBox{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-size:12px;
+}
+
+.controls button{
+    background:rgba(255,255,255,0.25);
+    border:none;
+    padding:12px;
+    border-radius:50%;
+    font-size:18px;
+    color:white;
+    cursor:pointer;
+}
+
+.btnBox span{
+    margin-top:5px;
+}
+
+/* POPUP ABOVE IMAGE */
+#popup{
+    position:absolute;
+    bottom:180px;
+    left:50%;
+    transform:translateX(-50%);
+    background:white;
+    color:black;
+    padding:12px 18px;
+    border-radius:12px;
+    display:none;
+    z-index:1000;
+}
+
+/* CONFETTI */
+.confetti{
+    position:fixed;
+    width:6px;
+    height:6px;
+    animation:fall linear infinite;
+}
+@keyframes fall{
+    to{transform:translateY(100vh) rotate(360deg);}
+}
+
+/* BALLOON */
+.balloon{
+    position:fixed;
+    bottom:-120px;
+    width:40px;
+    height:55px;
+    border-radius:50%;
+    animation:floatUp linear infinite;
+}
+.balloon::after{
+    content:"";
+    position:absolute;
+    width:2px;
+    height:50px;
+    background:white;
+    left:50%;
+    top:100%;
+    transform:translateX(-50%);
+}
+@keyframes floatUp{
+    to{transform:translateY(-120vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="name">💖 Happy Birthday Sanu 💖</div>
+
+<img id="img" src="friend1.jpg">
+
+<div id="popup"></div>
+
+<div id="message"></div>
+
+<div class="controls">
+
+  <div class="btnBox">
+    <button onclick="playMusic()">🎵</button>
+    <span>Music</span>
+  </div>
+
+  <div class="btnBox">
+    <button onclick="showSecret()">💌</button>
+    <span>Secret</span>
+  </div>
+
+  <div class="btnBox">
+    <button onclick="cutCake()">🎂</button>
+    <span>Cut the cake</span>
+  </div>
+
+</div>
+
+</div>
+
+<audio id="music" src="birthday.mp3"></audio>
+
+<script>
+
+// slideshow
+let imgs=["friend1.jpg","friend2.jpg","friend3.jpg"];
+let i=0;
+setInterval(()=>{
+    i=(i+1)%imgs.length;
+    document.getElementById("img").src=imgs[i];
+},2000);
+
+// typing
+let text="Happy Birthday Saniya ❤️ You are my happiness, my peace, and my favorite person forever 💖. To the one who has been there for every high and every low—I hope your day is as beautiful as the heart you share with the world.";
+let j=0;
+function type(){
+    if(j<text.length){
+        document.getElementById("message").innerHTML+=text[j++];
+        setTimeout(type,35);
+    }
+}
+type();
+
+// music
+function playMusic(){
+    document.getElementById("music").play();
+}
+
+// popup toggle
+let popupVisible=false;
+
+function showPopup(text){
+    let p=document.getElementById("popup");
+    if(popupVisible){
+        p.style.display="none";
+        popupVisible=false;
+    }else{
+        p.innerHTML=text;
+        p.style.display="block";
+        popupVisible=true;
+    }
+}
+
+function showSecret(){
+    showPopup("💌 You are my Close Best Friend ❤️");
+}
+
+function cutCake(){
+    showPopup("🎂 Now Make a wish 💖");
+}
+
+// confetti
+setInterval(()=>{
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*window.innerWidth+"px";
+    c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+    c.style.animationDuration=(Math.random()*3+2)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+},70);
+
+// balloons
+setInterval(()=>{
+    let b=document.createElement("div");
+    b.className="balloon";
+    b.style.left=Math.random()*window.innerWidth+"px";
+    b.style.background=`hsl(${Math.random()*360},70%,60%)`;
+    b.style.animationDuration=(Math.random()*4+4)+"s";
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),8000);
+},600);
+
+// fireworks
+function createFirework() {
+    let x = Math.random() * window.innerWidth;
+    let y = Math.random() * window.innerHeight / 2;
+
+    for (let i = 0; i < 40; i++) {
+        let spark = document.createElement("div");
+        spark.style.position = "fixed";
+        spark.style.width = "4px";
+        spark.style.height = "4px";
+        spark.style.borderRadius = "50%";
+        spark.style.left = x + "px";
+        spark.style.top = y + "px";
+
+        let color = `hsl(${Math.random()*360},100%,60%)`;
+        spark.style.background = color;
+        spark.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+
+        let angle = Math.random() * 2 * Math.PI;
+        let distance = Math.random() * 200 + 50;
+
+        let dx = Math.cos(angle) * distance;
+        let dy = Math.sin(angle) * distance;
+
+        spark.animate([
+            { transform: "translate(0,0)", opacity: 1 },
+            { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
+        ], {
+            duration: 1200,
+            easing: "ease-out"
+        });
+
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 1200);
+    }
+}
+
+setInterval(()=>{
+    for(let i=0;i<3;i++){
+        setTimeout(createFirework,i*200);
+    }
+},1200);
+
+</script>
+
+</body>
+</html>
